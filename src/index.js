@@ -4,16 +4,19 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 import myApp from './Redux/Reducers'
-import { increment } from './Redux/Actions'
 
-let store = createStore(myApp);
+let store = createStore(
+    myApp,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
-store.subscribe(() => {console.log(store.getState().count)});
-
-//Dispatch
-store.dispatch(increment());
-
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+    , document.getElementById('root')
+);
 
 serviceWorker.unregister();
